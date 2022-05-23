@@ -1,4 +1,4 @@
-# webview\_flutter\_web
+# webview_flutter_web
 
 This is an implementation of the [`webview_flutter`](https://pub.dev/packages/webview_flutter) plugin for web.
 
@@ -17,10 +17,10 @@ Nothing else is currently supported.
 This package is not an endorsed implementation of the `webview_flutter` plugin
 yet, so it currently requires extra setup to use:
 
-* [Add this package](https://pub.dev/packages/webview_flutter_web/install)
+- [Add this package](https://pub.dev/packages/webview_flutter_web/install)
   as an explicit dependency of your project, in addition to depending on
   `webview_flutter`.
-* Register `WebWebViewPlatform` as the `WebView.platform` before creating a
+- Register `WebWebViewPlatform` as the `WebView.platform` before creating a
   `WebView`. See below for examples.
 
 Once those steps below are complete, the APIs from `webview_flutter` listed
@@ -35,7 +35,7 @@ need to register the web implementation.
 
 ```dart
 ...
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:talkjs_webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 main() {
@@ -50,8 +50,9 @@ conditional import to avoid directly including `webview_flutter_web.dart` on
 non-web platforms. For example:
 
 `register_web_webview.dart`:
+
 ```dart
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:talkjs_webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 void registerWebViewWebImplementation() {
@@ -60,6 +61,7 @@ void registerWebViewWebImplementation() {
 ```
 
 `register_web_webview_stub.dart`:
+
 ```dart
 void registerWebViewWebImplementation() {
   // No-op.
@@ -67,6 +69,7 @@ void registerWebViewWebImplementation() {
 ```
 
 `main.dart`:
+
 ```dart
 ...
 import 'register_web_webview_stub.dart'
