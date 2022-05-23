@@ -4,8 +4,12 @@
 
 package io.flutter.plugins.webviewflutter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -14,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
+import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugins.webviewflutter.GeneratedAndroidWebView.WebChromeClientHostApi;
 
 /**
@@ -26,12 +31,30 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
   private final WebChromeClientCreator webChromeClientCreator;
   private final WebChromeClientFlutterApiImpl flutterApi;
 
+  public static Activity activity;
+
   /**
    * Implementation of {@link WebChromeClient} that passes arguments of callback methods to Dart.
    */
   public static class WebChromeClientImpl extends WebChromeClient implements Releasable {
     @Nullable private WebChromeClientFlutterApiImpl flutterApi;
     private WebViewClient webViewClient;
+
+    @Nullable private static ValueCallback<Uri[]> filePathCallback;
+
+    public static class ActivityResultListener implements PluginRegistry.ActivityResultListener {
+      @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+      @Override
+      public boolean onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_CANCELED && filePathCallback != null) {
+          filePathCallback.onReceiveValue(null);
+        } else if (resultCode == Activity.RESULT_OK && filePathCallback != null) {
+          filePathCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+          filePathCallback = null;
+        }
+        return true;
+      }
+    }
 
     /**
      * Creates a {@link WebChromeClient} that passes arguments of callbacks methods to Dart.
@@ -107,6 +130,20 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
       }
     }
 
+    @Override
+    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> _filePathCallback, FileChooserParams fileChooserParams) {
+      filePathCallback = _filePathCallback;
+
+      Intent contentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+      contentIntent.setType("*/*");
+      contentIntent.addCategory(Intent.CATEGORY_OPENABLE);
+
+      if (activity != null) {
+        activity.startActivityForResult(contentIntent, 1);
+      }
+      return true;
+    }
+
     /**
      * Set the {@link WebViewClient} that calls to {@link WebChromeClient#onCreateWindow} are passed
      * to.
@@ -135,6 +172,7 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
      * @param webViewClient receives forwarded calls from {@link WebChromeClient#onCreateWindow}
      * @return the created {@link DownloadListenerHostApiImpl.DownloadListenerImpl}
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public WebChromeClientImpl createWebChromeClient(
         WebChromeClientFlutterApiImpl flutterApi, WebViewClient webViewClient) {
       return new WebChromeClientImpl(flutterApi, webViewClient);
@@ -157,6 +195,7 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
     this.flutterApi = flutterApi;
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   @Override
   public void create(Long instanceId, Long webViewClientInstanceId) {
     final WebViewClient webViewClient =
