@@ -7,8 +7,9 @@ import 'dart:typed_data' as _i6;
 import 'dart:ui' as _i7;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:webview_flutter_android/src/android_webview.dart' as _i2;
-import 'package:webview_flutter_android/src/android_webview.pigeon.dart' as _i3;
+import 'package:talkjs_webview_flutter_android/src/android_webview.dart' as _i2;
+import 'package:talkjs_webview_flutter_android/src/android_webview.pigeon.dart'
+    as _i3;
 
 import 'test_android_webview.pigeon.dart' as _i5;
 
