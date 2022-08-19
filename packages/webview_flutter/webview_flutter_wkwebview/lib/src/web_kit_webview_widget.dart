@@ -286,7 +286,7 @@ class WebKitWebViewPlatformController extends WebViewPlatformController {
   @override
   Future<String> evaluateJavascript(String javascript) async {
     final Object? result = await webView.evaluateJavaScript(javascript);
-    // The legacy implementation of webview_flutter_wkwebview would convert
+    // The legacy implementation of talkjs_webview_flutter_wkwebview would convert
     // objects to strings before returning them to Dart. This method attempts
     // to converts Dart objects to Strings the way it is done in Objective-C
     // to avoid breaking users expecting the same String format.

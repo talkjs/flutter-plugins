@@ -7,6 +7,21 @@
 #import "FLTWKProgressionDelegate.h"
 #import "FlutterWebView_Test.h"
 #import "JavaScriptChannelHandler.h"
+#import <objc/runtime.h>
+
+
+
+@interface _NoInputAccessoryView : NSObject
+
+@end
+
+@implementation _NoInputAccessoryView
+
+- (id)inputAccessoryView {
+  return nil;
+}
+
+@end
 
 @implementation FLTWebViewFactory {
   NSObject<FlutterBinaryMessenger> *_messenger;
@@ -37,7 +52,9 @@
   FLTWebViewController *webviewController = [[FLTWebViewController alloc] initWithFrame:frame
                                                                          viewIdentifier:viewId
                                                                               arguments:args
+                                           
                                                                         binaryMessenger:_messenger];
+    
   return webviewController;
 }
 
@@ -60,6 +77,7 @@
     UIEdgeInsets insetToAdjust = self.scrollView.adjustedContentInset;
     self.scrollView.contentInset = UIEdgeInsetsMake(-insetToAdjust.top, -insetToAdjust.left,
                                                     -insetToAdjust.bottom, -insetToAdjust.right);
+    
   }
 }
 
@@ -83,6 +101,8 @@
   if (self = [super init]) {
     _viewId = viewId;
 
+    
+
     NSString *channelName = [NSString stringWithFormat:@"plugins.flutter.io/webview_%lld", viewId];
     _channel = [FlutterMethodChannel methodChannelWithName:channelName binaryMessenger:messenger];
     _javaScriptChannelNames = [[NSMutableSet alloc] init];
@@ -103,6 +123,9 @@
                         inConfiguration:configuration];
 
     _webView = [[FLTWKWebView alloc] initWithFrame:frame configuration:configuration];
+    [self removeInputAccessoryViewFromWKWebView:_webView];
+
+
 
     // Background color
     NSNumber *backgroundColorNSNumber = args[@"backgroundColor"];
@@ -157,6 +180,7 @@
 - (UIView *)view {
   return _webView;
 }
+
 
 - (void)onMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
   if ([[call method] isEqualToString:@"updateSettings"]) {
@@ -693,7 +717,42 @@
     [webView loadRequest:navigationAction.request];
   }
 
+  
+
   return nil;
+}
+
+#pragma mark - remove input accessory view
+- (void)removeInputAccessoryViewFromWKWebView:(WKWebView *)webView {
+  UIView *targetView;
+
+  for (UIView *view in webView.scrollView.subviews) {
+    if([[view.class description] hasPrefix:@"WKContent"]) {
+      targetView = view;
+    }
+  }
+
+  if (!targetView) {
+    return;
+  }
+
+  NSString *noInputAccessoryViewClassName = [NSString stringWithFormat:@"%@_NoInputAccessoryView", targetView.class.superclass];
+  Class newClass = NSClassFromString(noInputAccessoryViewClassName);
+
+  if(newClass == nil) {
+    newClass = objc_allocateClassPair(targetView.class, [noInputAccessoryViewClassName cStringUsingEncoding:NSASCIIStringEncoding], 0);
+    if(!newClass) {
+      return;
+    }
+
+    Method method = class_getInstanceMethod([_NoInputAccessoryView class], @selector(inputAccessoryView));
+
+    class_addMethod(newClass, @selector(inputAccessoryView), method_getImplementation(method), method_getTypeEncoding(method));
+
+    objc_registerClassPair(newClass);
+  }
+
+  object_setClass(targetView, newClass);
 }
 
 @end

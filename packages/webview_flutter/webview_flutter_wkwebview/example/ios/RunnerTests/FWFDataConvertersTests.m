@@ -4,7 +4,7 @@
 
 @import Flutter;
 @import XCTest;
-@import webview_flutter_wkwebview;
+@import talkjs_webview_flutter_wkwebview;
 
 @interface FWFDataConvertersTests : XCTestCase
 @end

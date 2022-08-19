@@ -1,3 +1,11 @@
+## 3.0.6
+
+* Minor fixes on wkwebview imports
+
+## 3.0.5
+
+* Bump wkwebview version
+
 ## 3.0.4
 
 * Minor fixes for new analysis options.

@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// This header is available in the Test module. Import via "@import webview_flutter_wkwebview.Test;"
+// This header is available in the Test module. Import via "@import talkjs_webview_flutter_wkwebview.Test;"
 
-#import <webview_flutter_wkwebview/FLTCookieManager.h>
+#import <talkjs_webview_flutter_wkwebview/FLTCookieManager.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

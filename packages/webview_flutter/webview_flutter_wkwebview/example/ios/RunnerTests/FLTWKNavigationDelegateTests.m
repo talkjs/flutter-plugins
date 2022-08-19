@@ -4,8 +4,8 @@
 
 @import Flutter;
 @import XCTest;
-@import webview_flutter_wkwebview;
-@import webview_flutter_wkwebview.Test;
+@import talkjs_webview_flutter_wkwebview;
+@import talkjs_webview_flutter_wkwebview.Test;
 
 // OCMock library doesn't generate a valid modulemap.
 #import <OCMock/OCMock.h>

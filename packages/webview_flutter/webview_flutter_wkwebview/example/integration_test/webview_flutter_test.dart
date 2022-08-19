@@ -17,9 +17,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
-import 'package:webview_flutter_wkwebview_example/navigation_decision.dart';
-import 'package:webview_flutter_wkwebview_example/navigation_request.dart';
-import 'package:webview_flutter_wkwebview_example/web_view.dart';
+import 'package:talkjs_webview_flutter_wkwebview_example/navigation_decision.dart';
+import 'package:talkjs_webview_flutter_wkwebview_example/navigation_request.dart';
+import 'package:talkjs_webview_flutter_wkwebview_example/web_view.dart';
 
 Future<void> main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

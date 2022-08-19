@@ -1,3 +1,15 @@
+## 2.8.3
+
+* Minor fixes to accessoryView overwrite
+
+## 2.8.1
+
+* Minor fixes to accessoryView overwrite
+
+## 2.8.0
+
+* Removes the inputAccessoryView from input selection
+
 ## 2.7.5
 
 * Minor fixes for new analysis options.

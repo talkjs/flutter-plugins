@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:talkjs_webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import 'navigation_decision.dart';
 import 'navigation_request.dart';
@@ -686,7 +686,7 @@ class WebViewCookieManager extends WebViewCookieManagerPlatform {
         WebViewCookieManagerPlatform.instance = WKWebViewCookieManager();
       } else {
         throw AssertionError(
-            'This platform is currently unsupported for webview_flutter_wkwebview.');
+            'This platform is currently unsupported for talkjs_webview_flutter_wkwebview.');
       }
     }
     return WebViewCookieManagerPlatform.instance!;

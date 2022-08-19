@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #import <XCTest/XCTest.h>
-@import webview_flutter_wkwebview;
+@import talkjs_webview_flutter_wkwebview;
 
 @interface FWFInstanceManagerTests : XCTestCase
 @end
