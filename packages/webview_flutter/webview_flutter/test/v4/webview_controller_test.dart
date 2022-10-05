@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:webview_flutter/src/v4/src/webview_controller.dart';
+import 'package:talkjs_webview_flutter/src/v4/src/webview_controller.dart';
 import 'package:webview_flutter_platform_interface/v4/webview_flutter_platform_interface.dart';
 
 import 'webview_controller_test.mocks.dart';
