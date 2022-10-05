@@ -4,8 +4,8 @@
 
 #import <XCTest/XCTest.h>
 
-@import webview_flutter_wkwebview;
-@import webview_flutter_wkwebview.Test;
+@import talkjs_webview_flutter_wkwebview;
+@import talkjs_webview_flutter_wkwebview.Test;
 
 @interface FWFInstanceManagerTests : XCTestCase
 @end

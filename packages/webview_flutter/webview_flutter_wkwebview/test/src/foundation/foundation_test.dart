@@ -7,10 +7,10 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:webview_flutter_wkwebview/src/common/instance_manager.dart';
-import 'package:webview_flutter_wkwebview/src/common/web_kit.pigeon.dart';
-import 'package:webview_flutter_wkwebview/src/foundation/foundation.dart';
-import 'package:webview_flutter_wkwebview/src/foundation/foundation_api_impls.dart';
+import 'package:talkjs_webview_flutter_wkwebview/src/common/instance_manager.dart';
+import 'package:talkjs_webview_flutter_wkwebview/src/common/web_kit.pigeon.dart';
+import 'package:talkjs_webview_flutter_wkwebview/src/foundation/foundation.dart';
+import 'package:talkjs_webview_flutter_wkwebview/src/foundation/foundation_api_impls.dart';
 
 import '../common/test_web_kit.pigeon.dart';
 import 'foundation_test.mocks.dart';
