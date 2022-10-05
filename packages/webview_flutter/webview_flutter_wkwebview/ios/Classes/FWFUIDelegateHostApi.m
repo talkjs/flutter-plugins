@@ -82,6 +82,23 @@
                                       }];
   return nil;
 }
+
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000 /* iOS 15 */
+/**
+ * Media capture permissions (prevent multiple prompts)
+ */
+- (void)                         webView:(WKWebView *)webView
+  requestMediaCapturePermissionForOrigin:(WKSecurityOrigin *)origin
+                        initiatedByFrame:(WKFrameInfo *)frame
+                                    type:(WKMediaCaptureType *)type
+                         decisionHandler:(void (^)(WKPermissionDecision decision))decisionHandler {
+      if ([origin.host isEqualToString:webView.URL.host] && type == WKMediaCaptureTypeMicrophone) {
+        decisionHandler(WKPermissionDecisionGrant);
+      } else {
+        decisionHandler(WKPermissionDecisionPrompt);
+      }
+  }
+#endif
 @end
 
 @interface FWFUIDelegateHostApiImpl ()
