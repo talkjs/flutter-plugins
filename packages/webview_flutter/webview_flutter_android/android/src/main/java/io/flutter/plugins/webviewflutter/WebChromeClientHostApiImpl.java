@@ -4,11 +4,16 @@
 
 package io.flutter.plugins.webviewflutter;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
+import android.view.inputmethod.InputMethodManager;
+import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -18,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.content.ContextCompat;
+
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugins.webviewflutter.GeneratedAndroidWebView.WebChromeClientHostApi;
 
@@ -40,6 +47,9 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
     @Nullable private WebChromeClientFlutterApiImpl flutterApi;
     private WebViewClient webViewClient;
 
+    private static int REQUEST_CODE = 304895;
+
+    @Nullable private static PermissionRequest permissionRequest;
     @Nullable private static ValueCallback<Uri[]> filePathCallback;
 
     public static class ActivityResultListener implements PluginRegistry.ActivityResultListener {
@@ -53,6 +63,23 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
           filePathCallback = null;
         }
         return true;
+      }
+    }
+
+    public static class RequestPermissionsResultListener implements PluginRegistry.RequestPermissionsResultListener {
+      @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+      @Override
+      public boolean onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE) {
+          if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            permissionRequest.grant(new String[] {PermissionRequest.RESOURCE_AUDIO_CAPTURE});
+          } else {
+            permissionRequest.deny();
+          }
+          return true;
+        }
+
+        return false;
       }
     }
 
@@ -140,9 +167,33 @@ public class WebChromeClientHostApiImpl implements WebChromeClientHostApi {
 
       if (activity != null) {
         activity.startActivityForResult(contentIntent, 1);
+
+        // Hide the keyboard
+        InputMethodManager keyboard = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(webView.getWindowToken(), 0);
       }
       return true;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onPermissionRequest(PermissionRequest request) {
+      Uri origin = request.getOrigin();
+
+      for (String requestedPermission : request.getResources()) {
+        if (requestedPermission.equals(PermissionRequest.RESOURCE_AUDIO_CAPTURE)
+                && origin.equals(Uri.parse("https://app.talkjs.com/"))) {
+          String permission = Manifest.permission.RECORD_AUDIO;
+          if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionRequest = request;
+            activity.requestPermissions(new String[] {permission}, REQUEST_CODE);
+          } else {
+            request.grant(new String[] {requestedPermission});
+          }
+        }
+      }
+    }
+
 
     /**
      * Set the {@link WebViewClient} that calls to {@link WebChromeClient#onCreateWindow} are passed

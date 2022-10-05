@@ -153,6 +153,7 @@ public class WebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
     updateContext(activityPluginBinding.getActivity());
 
     WebChromeClientHostApiImpl.activity = activityPluginBinding.getActivity();
+    activityPluginBinding.addRequestPermissionsResultListener(new WebChromeClientHostApiImpl.WebChromeClientImpl.RequestPermissionsResultListener());
     activityPluginBinding.addActivityResultListener(new WebChromeClientHostApiImpl.WebChromeClientImpl.ActivityResultListener());
   }
 
