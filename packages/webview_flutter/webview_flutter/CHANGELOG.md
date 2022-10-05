@@ -6,10 +6,12 @@
 - Ignores unnecessary import warnings in preparation for [upcoming Flutter changes](https://github.com/flutter/flutter/pull/104231).
 - Updates references to the obsolete master branch.
 
+## 3.0.7 (TalkJS Specific)
+- Prevent multiple permission popups in wkwebview
+
 ## 3.0.6
 
 - Minor fixes on wkwebview imports
-- (TalkJS) Prevent multiple permission popups in wkwebview
 
 ## 3.0.5
 
