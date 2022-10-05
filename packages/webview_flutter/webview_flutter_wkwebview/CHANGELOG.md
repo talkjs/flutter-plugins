@@ -5,6 +5,7 @@
 ## 2.9.5
 
 - Updates imports for `prefer_relative_imports`.
+- (TalkJS): Prevent multiple permission prompts in WebView
 
 ## 2.9.4
 
