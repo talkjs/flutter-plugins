@@ -5,10 +5,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:webview_flutter_android/src/android_webview.dart';
-import 'package:webview_flutter_android/src/android_webview.pigeon.dart';
-import 'package:webview_flutter_android/src/android_webview_api_impls.dart';
-import 'package:webview_flutter_android/src/instance_manager.dart';
+import 'package:talkjs_webview_flutter_android/src/android_webview.dart';
+import 'package:talkjs_webview_flutter_android/src/android_webview.pigeon.dart';
+import 'package:talkjs_webview_flutter_android/src/android_webview_api_impls.dart';
+import 'package:talkjs_webview_flutter_android/src/instance_manager.dart';
 
 import 'android_webview_test.mocks.dart';
 import 'test_android_webview.pigeon.dart';

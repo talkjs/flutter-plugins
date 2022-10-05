@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:talkjs_webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_example/main.dart';
 
 void main() {

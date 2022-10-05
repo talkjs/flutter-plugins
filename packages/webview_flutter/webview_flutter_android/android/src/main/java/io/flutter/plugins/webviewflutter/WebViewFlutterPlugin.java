@@ -5,10 +5,13 @@
 package io.flutter.plugins.webviewflutter;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -59,6 +62,7 @@ public class WebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
    * <p>Calling this automatically initializes the plugin. However plugins initialized this way
    * won't react to changes in activity or context, unlike {@link WebViewFlutterPlugin}.
    */
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   @SuppressWarnings({"unused", "deprecation"})
   public static void registerWith(io.flutter.plugin.common.PluginRegistry.Registrar registrar) {
     new WebViewFlutterPlugin()
@@ -71,6 +75,7 @@ public class WebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
                 registrar.context().getAssets(), registrar));
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   private void setUp(
       BinaryMessenger binaryMessenger,
       PlatformViewRegistry viewRegistry,
@@ -125,6 +130,7 @@ public class WebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
         new WebStorageHostApiImpl(instanceManager, new WebStorageHostApiImpl.WebStorageCreator()));
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
     pluginBinding = binding;
@@ -145,22 +151,28 @@ public class WebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding activityPluginBinding) {
     updateContext(activityPluginBinding.getActivity());
+
+    WebChromeClientHostApiImpl.activity = activityPluginBinding.getActivity();
+    activityPluginBinding.addActivityResultListener(new WebChromeClientHostApiImpl.WebChromeClientImpl.ActivityResultListener());
   }
 
   @Override
   public void onDetachedFromActivityForConfigChanges() {
     updateContext(pluginBinding.getApplicationContext());
+    WebChromeClientHostApiImpl.activity = null;
   }
 
   @Override
   public void onReattachedToActivityForConfigChanges(
       @NonNull ActivityPluginBinding activityPluginBinding) {
     updateContext(activityPluginBinding.getActivity());
+    WebChromeClientHostApiImpl.activity = activityPluginBinding.getActivity();
   }
 
   @Override
   public void onDetachedFromActivity() {
     updateContext(pluginBinding.getApplicationContext());
+    WebChromeClientHostApiImpl.activity = null;
   }
 
   private void updateContext(Context context) {
