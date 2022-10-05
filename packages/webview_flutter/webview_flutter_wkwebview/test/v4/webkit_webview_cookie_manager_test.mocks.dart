@@ -5,9 +5,9 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:webview_flutter_wkwebview/src/foundation/foundation.dart'
+import 'package:talkjs_webview_flutter_wkwebview/src/foundation/foundation.dart'
     as _i4;
-import 'package:webview_flutter_wkwebview/src/web_kit/web_kit.dart' as _i2;
+import 'package:talkjs_webview_flutter_wkwebview/src/web_kit/web_kit.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
