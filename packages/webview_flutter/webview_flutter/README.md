@@ -7,11 +7,10 @@ A Flutter plugin that provides a WebView widget.
 # IMPORTANT
 
 This is a fork that depends on [talkjs_webview_flutter_android](https://pub.dev/packages/talkjs_webview_flutter_android).
-which provides file upload support to the Android implementation of the WebView. The changes made are specific to the
-[TalkJS Flutter SDK](https://pub.dev/packages/talkjs_flutter) and hence this package is NOT intended for use with other
-packages/plugins. Aside from the changes mentioned, no other changes have been made to this package.
-This is merely a stopgap measure until this [Pull Request](https://github.com/flutter/plugins/pull/5172)
-is merged into the main repository.
+which provides file upload support to the Android implementation of the WebView. It also depends on
+[talkjs_webview_flutter_wkwebview](https://pub.dev/packages/talkjs_webview_flutter_wkwebview). 
+The changes made are specific to the [TalkJS Flutter SDK](https://pub.dev/packages/talkjs_flutter)
+and hence this package is NOT intended for use with other packages/plugins. 
 
 On iOS the WebView widget is backed by a [WKWebView](https://developer.apple.com/documentation/webkit/wkwebview);
 On Android the WebView widget is backed by a [WebView](https://developer.android.com/reference/android/webkit/WebView).

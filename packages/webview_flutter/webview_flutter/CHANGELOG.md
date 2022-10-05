@@ -9,6 +9,7 @@
 ## 3.0.6
 
 - Minor fixes on wkwebview imports
+- (TalkJS) Prevent multiple permission popups in wkwebview
 
 ## 3.0.5
 
